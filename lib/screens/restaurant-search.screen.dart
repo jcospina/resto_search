@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_search/model/app,model.dart';
 import 'package:restaurant_search/services/auth.service.dart';
 import 'package:restaurant_search/services/places.service.dart';
+import 'package:restaurant_search/services/search-records.service.dart';
 import 'package:restaurant_search/widgets/restaurant.widget.dart';
 
 class RestaurantSearchScreen extends StatefulWidget {
@@ -39,12 +40,14 @@ class _RestaurantSearchScreenState extends State<RestaurantSearchScreen> {
 
   _RestaurantSearchScreenState() {
     PlacesService().init();
+    SearchRecords().init();
     searchBar = SearchBar(
       inBar: false,
       setState: setState,
       onSubmitted: (searchTerm) async {
         toggleLoading();
         var searchResults = await PlacesService().getPlaces(searchTerm);
+        SearchRecords().addRecord(searchTerm);
         setState(() {
           places = searchResults;
           toggleLoading();
