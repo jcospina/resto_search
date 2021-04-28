@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1005631022091",
+    "project_id": "resto-search-17423",
+    "storage_bucket": "resto-search-17423.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005631022091:android:79c88e5e40c0854928d30e",
+        "android_client_info": {
+          "package_name": "com.juanospina.restaurant_search"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005631022091-46svl3r2il27cprupebmlkil53c7krb0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJDhVzzOT6R_tu8Bewc4NAzeSQ0XHiEa0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005631022091-46svl3r2il27cprupebmlkil53c7krb0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

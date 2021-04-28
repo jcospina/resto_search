@@ -9,7 +9,7 @@ import 'link.widget.dart';
 class SignUpForm extends StatefulWidget {
   final FormType formType;
   final String submitLabel;
-  final VoidCallback onSubmit;
+  final Function(String name, String email, String password) onSubmit;
   final VoidCallback onChangeForm;
 
   SignUpForm({
@@ -33,90 +33,93 @@ class _SignUpFormState extends State<SignUpForm> {
     String password = '';
     return Form(
       key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SignUpTextFormField(
-            visible: widget.formType == FormType.REGISTER,
-            icon: Icon(Icons.person),
-            placeholder: 'Name',
-            gap: 15.0,
-            validator: (String value) {
-              return value.isEmpty ? 'Please enter your name' : null;
-            },
-            onChange: (String newValue) {
-              name = newValue;
-            },
-          ),
-          SignUpTextFormField(
-            icon: Icon(Icons.email),
-            placeholder: 'Email',
-            inputType: TextInputType.emailAddress,
-            gap: 15.0,
-            validator: (String value) {
-              return EmailValidator.validate(value)
-                  ? null
-                  : 'Please enter a valid email';
-            },
-            onChange: (String newValue) {
-              email = newValue;
-            },
-          ),
-          SignUpTextFormField(
-            icon: Icon(Icons.vpn_key),
-            placeholder: 'Password',
-            obscureText: true,
-            gap: 15.0,
-            validator: (String value) {
-              return value.isEmpty ? 'Password cannot be empty' : null;
-            },
-            onChange: (String newValue) {
-              password = newValue;
-            },
-          ),
-          Visibility(
-            visible: widget.formType == FormType.LOGIN,
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Link(
-                label: 'Forgot Password?',
-                color: kDarkBlueColor.withOpacity(0.5),
-                fontWeight: FontWeight.w400,
-                onTap: () {},
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SignUpTextFormField(
+              visible: widget.formType == FormType.REGISTER,
+              icon: Icon(Icons.person),
+              placeholder: 'Name',
+              gap: 15.0,
+              validator: (String value) {
+                return value.isEmpty ? 'Please enter your name' : null;
+              },
+              onChange: (String newValue) {
+                name = newValue;
+              },
+            ),
+            SignUpTextFormField(
+              icon: Icon(Icons.email),
+              placeholder: 'Email',
+              inputType: TextInputType.emailAddress,
+              gap: 15.0,
+              validator: (String value) {
+                return EmailValidator.validate(value)
+                    ? null
+                    : 'Please enter a valid email';
+              },
+              onChange: (String newValue) {
+                email = newValue;
+              },
+            ),
+            SignUpTextFormField(
+              icon: Icon(Icons.vpn_key),
+              placeholder: 'Password',
+              obscureText: true,
+              gap: 15.0,
+              validator: (String value) {
+                return value.isEmpty ? 'Password cannot be empty' : null;
+              },
+              onChange: (String newValue) {
+                password = newValue;
+              },
+            ),
+            Visibility(
+              visible: widget.formType == FormType.LOGIN,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Link(
+                  label: 'Forgot Password?',
+                  color: kDarkBlueColor.withOpacity(0.5),
+                  fontWeight: FontWeight.w400,
+                  onTap: () {},
+                ),
               ),
             ),
-          ),
-          RoundedButton(
-            label: widget.submitLabel,
-            onPressed: () async {
-              if (_formKey.currentState.validate()) {
-                widget.onSubmit();
-              }
-            },
-            color: Theme.of(context).primaryColor,
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.formType == FormType.LOGIN
-                      ? 'Don\'t have an account?  '
-                      : 'Already have an account? ',
-                  style: kTitleTextStyle,
-                ),
-                Link(
-                  label: widget.formType == FormType.LOGIN
-                      ? 'Sign Up Now!'
-                      : 'Login',
-                  color: Theme.of(context).primaryColor,
-                  onTap: widget.onChangeForm,
-                ),
-              ],
+            RoundedButton(
+              label: widget.submitLabel,
+              onPressed: () async {
+                if (_formKey.currentState.validate()) {
+                  widget.onSubmit(name, email, password);
+                }
+              },
+              color: Theme.of(context).primaryColor,
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    widget.formType == FormType.LOGIN
+                        ? 'Don\'t have an account?  '
+                        : 'Already have an account? ',
+                    style: kTitleTextStyle,
+                  ),
+                  Link(
+                    label: widget.formType == FormType.LOGIN
+                        ? 'Sign Up Now!'
+                        : 'Login',
+                    color: Theme.of(context).primaryColor,
+                    onTap: widget.onChangeForm,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

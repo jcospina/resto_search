@@ -1,28 +1,20 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:restaurant_search/model/app,model.dart';
-import 'package:restaurant_search/screens/login.screen.dart';
-import 'package:restaurant_search/screens/restaurant-search.screen.dart';
-import 'package:restaurant_search/theme/app.theme.dart';
+import 'package:loading/loading.dart';
+import 'package:restaurant_search/screens/home.screen.dart';
+
+final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MyAppState(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: myAppTheme,
-        home: LoginScreen(),
-        routes: {
-          LoginScreen.id: (context) => LoginScreen(),
-          RestaurantSearchScreen.id: (context) => RestaurantSearchScreen()
-        },
-      ),
-    );
-  }
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(FutureBuilder(
+    future: _initialization,
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (snapshot.connectionState == ConnectionState.done) {
+        return RestoApp();
+      } else {
+        return Loading();
+      }
+    },
+  ));
 }
